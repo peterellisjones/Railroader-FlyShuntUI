@@ -18,6 +18,7 @@ New buttons to disconnect groups of cars:
 Important notes:
 * The buttons correspond to how many _groups of cars_ not how many _cars_ you want to disconnect. A group of cars is a set of cars coupled together that all have the same waybill destination.
 * Only cars with goods waybills for industries and interchanges are considered, not cars in need of repair or selling.
+* **back** and **front** are defined by the direction of travel of the train.
 
 Example usage:
 
