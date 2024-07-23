@@ -7,12 +7,12 @@ Make [fly shunting](https://www.youtube.com/watch?v=ihSTqPDITWY) easier by addin
 New buttons to disconnect groups of cars:
 
 * **All**: Disconnect _all_ cars with waybills from the **back** of the train
-* **-3**: Disconnect the first 3 groups of cars going to 3 unique destinations from the **back** of the train
-* **-2**: Disconnect the first 3 groups of cars going to 3 unique destinations from the **back** of the train
+* **-3**: Disconnect the first 3 groups of cars going to the first 3 unique destinations from the **back** of the train
+* **-2**: Disconnect the first 2 groups of cars going to the first 2 unique destinations from the **back** of the train
 * **-1**: Disconnect all cars going to the same destination from the **back** of the train
 * **1**: Disconnect all cars going to the same destination from the **front** of the train
-* **2**: Disconnect the first 3 groups of cars going to 3 unique destinations from the **front** of the train
-* **3**: Disconnect the first 3 groups of cars going to 3 unique destinations from the **front** of the train
+* **2**: Disconnect the first 2 groups of cars going to the first 2 unique destinations from the **front** of the train
+* **3**: Disconnect the first 3 groups of cars going to the first 3 unique destinations from the **front** of the train
 * **All**: Disconnect _all_ cars with waybills from the **front** of the train
 
 Important notes:
