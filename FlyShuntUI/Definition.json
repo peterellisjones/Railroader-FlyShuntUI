@@ -1,0 +1,9 @@
+{
+    "manifestVersion": 1,
+    "id": "FlyShuntUI",
+    "name": "FlyShuntUI",
+    "version": "1.0.0",
+    "assemblies": [
+        "FlyShuntUI"
+    ]
+}
