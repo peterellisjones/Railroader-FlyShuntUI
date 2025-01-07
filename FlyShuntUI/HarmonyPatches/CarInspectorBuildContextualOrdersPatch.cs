@@ -7,12 +7,14 @@ using UI.CarInspector;
 using Game.Messages;
 using UI.EngineControls;
 using JetBrains.Annotations;
-using Network;
 using System.Linq;
-using Model.OpsNew;
 using static Model.Car;
 using System.Collections.Generic;
 using System;
+using Game;
+using Network.Messages;
+using UI.Common;
+using Model.Ops;
 
 namespace FlyShuntUI.HarmonyPatches
 {
@@ -29,7 +31,8 @@ namespace FlyShuntUI.HarmonyPatches
 
             BaseLocomotive _car = (BaseLocomotive)(typeof(CarInspector).GetField("_car", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance));
             AutoEngineerOrdersHelper helper = new AutoEngineerOrdersHelper(_car as BaseLocomotive, persistence);
-            AutoEngineerMode mode2 = helper.Mode();
+            
+            AutoEngineerMode mode2 = helper.Mode;
 
             if (mode2 != AutoEngineerMode.Road)
             {
@@ -136,6 +139,7 @@ namespace FlyShuntUI.HarmonyPatches
             }
 
             OpsCarPosition destination = maybeFirstCarWaybill.Value.Destination;
+
             Car? carToDisconnect = null;
 
             int carsToDisconnectCount = 0;
@@ -167,7 +171,8 @@ namespace FlyShuntUI.HarmonyPatches
                         carsToDisconnectCount++;
                         groupsFound++;
                         DebugLog($"Car {car.DisplayName} is part of new group {groupsFound}");
-                    } else
+                    }
+                    else
                     {
                         DebugLog($"{groupsFound} groups found, stopping search");
                         break;
@@ -188,7 +193,7 @@ namespace FlyShuntUI.HarmonyPatches
             var groupsString = numGroups == 999 ? "all cars with waybills" : $"{groupsFound} {groupsMaybePlural}";
 
             var carsMaybePlural = carsToDisconnectCount > 1 ? "cars" : "car";
-            Multiplayer.Broadcast($"Disconnecting {groupsString} totalling {carsToDisconnectCount} {carsMaybePlural} from the {end} of the train");
+            Say($"Disconnecting {groupsString} totalling {carsToDisconnectCount} {carsMaybePlural} from the {end} of the train");
             DebugLog($"Disconnecting coupler between {newEndCar.DisplayName} and {carToDisconnect.DisplayName}");
 
             var newEndCarEndToDisconnect = (newEndCar.CoupledTo(LogicalEnd.A) == carToDisconnect) ? LogicalEnd.A : LogicalEnd.B;
@@ -199,6 +204,13 @@ namespace FlyShuntUI.HarmonyPatches
             carToDisconnect.ApplyEndGearChange(carToDisconnectEndToDisconnect, EndGearStateKey.Anglecock, 0f);
         }
 
+        private static void Say(string message)
+        {
+            Alert alert = new Alert(AlertStyle.Console, AlertLevel.Info, message, TimeWeather.Now.TotalSeconds);
+            WindowManager.Shared.Present(alert);
+        }
+
+
         private static void DebugLog(string message)
         {
             if (!FlyShuntUIPlugin.Settings.EnableDebug)
@@ -206,7 +218,7 @@ namespace FlyShuntUI.HarmonyPatches
                 return;
             }
 
-            Multiplayer.Broadcast(message);
+            Say(message);
         }
     }
 }
